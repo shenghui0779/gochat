@@ -25,7 +25,7 @@ const (
 
 const   (
 	//关联小程序
-	WxopenWxamplinkUrl = "https://api.weixin.qq.com/cgi-bin/wxopen/wxamplink?access_token=%s"
+	WxopenWxamplinkUrl = "https://api.weixin.qq.com/cgi-bin/wxopen/wxamplink"
 	//获取公众号关联的小程序
 	WxopenWxamplinkGetUrl = "https://api.weixin.qq.com/cgi-bin/wxopen/wxamplinkget"
 )

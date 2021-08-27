@@ -16,10 +16,10 @@ import (
 // 关联小程序
 // https://developers.weixin.qq.com/doc/oplatform/Third-party_Platforms/2.0/api/Official__Accounts/Mini_Program_Management_Permission.html
 type WxopenWxamplink struct {
-	AuthorizerRefreshToken string `json:"authorizer_refresh_token"`
-	Appid                  string `json:"appid"`
-	NotifyUsers            string `json:"notify_users"`
-	ShowProfile            string `json:"show_profile"`
+	AccessToken string `json:"access_token"`
+	Appid       string `json:"appid"`
+	NotifyUsers string `json:"notify_users"`
+	ShowProfile string `json:"show_profile"`
 }
 
 // 获取公众号关联的小程序
@@ -31,28 +31,27 @@ type WxopenWxamplinkget struct {
 }
 
 type WxopensItems struct {
-	Status int `json:"status"`
-	Username string `json:"username"`
-	Appid string `json:"appid"`
-	Source string `json:"source"`
-	Nickname string `json:"nickname"`
-	Selected int `json:"selected"`
-	NearbyDisplayStatus int `json:"nearby_display_status"`
-	Released int `json:"released"`
-	HeadimgURL string `json:"headimg_url"`
-	FuncInfos []struct {
-		Status int `json:"status"`
-		ID int `json:"id"`
-		Name string `json:"name"`
+	Status              int    `json:"status"`
+	Username            string `json:"username"`
+	Appid               string `json:"appid"`
+	Source              string `json:"source"`
+	Nickname            string `json:"nickname"`
+	Selected            int    `json:"selected"`
+	NearbyDisplayStatus int    `json:"nearby_display_status"`
+	Released            int    `json:"released"`
+	HeadimgURL          string `json:"headimg_url"`
+	FuncInfos           []struct {
+		Status int    `json:"status"`
+		ID     int    `json:"id"`
+		Name   string `json:"name"`
 	} `json:"func_infos"`
-	CopyVerifyStatus int `json:"copy_verify_status"`
-	Email string `json:"email"`
+	CopyVerifyStatus int    `json:"copy_verify_status"`
+	Email            string `json:"email"`
 }
-
 
 func SetWxopenWxamplink(data *WxopenWxamplink) wx.Action {
 	return wx.NewPostAction(urls.WxopenWxamplinkUrl,
-		wx.WithQuery("access_token", data.AuthorizerRefreshToken),
+		wx.WithQuery("access_token", data.AccessToken),
 		wx.WithBody(func() (bytes []byte, e error) {
 			return json.Marshal(data)
 		}),
@@ -60,12 +59,12 @@ func SetWxopenWxamplink(data *WxopenWxamplink) wx.Action {
 
 			return nil
 		},
-	))
+		))
 }
 
-func GetWxampLink(data *WxopenWxamplinkget) wx.Action  {
+func GetWxampLink(data *WxopenWxamplinkget) wx.Action {
 	return wx.NewPostAction(urls.WxopenWxamplinkGetUrl,
-		wx.WithQuery("access_token",data.AccessToken),
+		wx.WithQuery("access_token", data.AccessToken),
 		wx.WithDecode(func(resp []byte) error {
 			data.Items = []*WxopensItems{}
 			jsonStr := gjson.GetBytes(resp, "wxopens.items").String()
@@ -74,6 +73,6 @@ func GetWxampLink(data *WxopenWxamplinkget) wx.Action  {
 				return err
 			}
 			return nil
-		},),
+		}, ),
 	)
 }
